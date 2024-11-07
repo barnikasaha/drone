@@ -121,6 +121,42 @@
             text-align: left;
         }
     </style>
+</head>
+<body>
+    <div id="head">
+        <h1>DRONE</h1>
+    </div>
+    <div class="iframe-container">
+        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line"></iframe>
+        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line"></iframe>
+    </div>
+    <div id="dataBox2">Loading data...</div>
+    
+    <!-- Button to open modal -->
+    <button onclick="document.getElementById('dataModal').style.display='flex'">View Data Table</button>
+
+    <!-- Modal for data table -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('dataModal').style.display='none'">&times;</span>
+            <h2>ThingSpeak Data Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Entry ID</th>
+                        <th>Data</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="dataBody">
+                    <!-- Data will be injected here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="index.html" onclick="localStorage.removeItem('isLoggedIn')">Logout</a>
+
     <script>
         // Check if user is logged in
         if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -128,16 +164,7 @@
             window.location.href = "login.html";
         }
 
-        // Open and close modal
-        function openModal() {
-            document.getElementById("dataModal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("dataModal").style.display = "none";
-        }
-
-        // Fetch data from ThingSpeak API
+        // Fetch data from ThingSpeak API and populate table
         async function fetchDataFromThingSpeak() {
             const channelID = '2662278';
             const apiUrl = `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=5`;  // Adjust results as needed
@@ -187,40 +214,5 @@
         // Fetch data when the page loads
         window.onload = fetchDataFromThingSpeak;
     </script>
-</head>
-<body>
-    <div id="head">
-        <h1>DRONE</h1>
-    </div>
-    <div class="iframe-container">
-        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line"></iframe>
-        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line"></iframe>
-    </div>
-    <div id="dataBox2">Loading data...</div>
-    
-    <!-- Button to open modal -->
-    <button onclick="openModal()">View Data Table</button>
-
-    <!-- Modal for data table -->
-    <div id="dataModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h2>ThingSpeak Data Table</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Entry ID</th>
-                        <th>Data</th>
-                        <th>Timestamp</th>
-                    </tr>
-                </thead>
-                <tbody id="dataBody">
-                    <!-- Data will be injected here via JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <a href="index.html" onclick="localStorage.removeItem('isLoggedIn')">Logout</a>
 </body>
 </html>
