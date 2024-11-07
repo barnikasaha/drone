@@ -4,12 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThingSpeak Data</title>
-    
-    <div id="head">
-        <h1>DRONE</h1>
-    </div>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2662278/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line"></iframe>
-    <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2662278/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line"></iframe>
+    <style>
+        /* Set up a background gradient for a clean, modern look */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        
+        /* Header styles */
+        #head {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #head h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #f0db4f;
+            margin: 0;
+        }
+
+        /* Style the data display boxes */
+        #dataBox2 {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+            width: 90%;
+            max-width: 500px;
+            color: #ffffff;
+        }
+
+        /* Center and style iframes */
+        .iframe-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        iframe {
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Logout button styles */
+        a {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #d62020;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #b71c1c;
+        }
+    </style>
     <script>
         // Check if user is logged in
         if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -17,20 +81,20 @@
             window.location.href = "login.html";
         }
 
-        // Replace with your ThingSpeak channel ID and read API key
+        // Fetch data from ThingSpeak API
         async function fetchDataFromThingSpeak() {
             const channelID = '2662278';
             const apiUrl = `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=1`;
-    
+
             try {
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-    
+
                 const data = await response.json();
                 const lastEntry = data.feeds[0];
-    
+
                 if (lastEntry) {
                     let content = 'Last entry:<br>';
                     for (let i = 1; i <= 8; i++) {
@@ -47,11 +111,19 @@
                 document.getElementById('dataBox2').textContent = 'Failed to fetch data';
             }
         }
-    
+
         fetchDataFromThingSpeak();
     </script>
 </head>
 <body>
+    <div id="head">
+        <h1>DRONE</h1>
+    </div>
+    <div class="iframe-container">
+        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Temperature&type=line"></iframe>
+        <iframe width="450" height="260" src="https://thingspeak.com/channels/2662278/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=Humidity&type=line"></iframe>
+    </div>
+    <div id="dataBox2">Loading data...</div>
     <a href="index.html" onclick="localStorage.removeItem('isLoggedIn')">Logout</a>
 </body>
 </html>
