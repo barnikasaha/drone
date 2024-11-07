@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script>
+        function registerUser() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username && password) {
+                // Save credentials in localStorage
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+                alert("Registration successful! Please log in.");
+                window.location.href = "login.html";  // Redirect to login page
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Register</h2>
+    <form onsubmit="event.preventDefault(); registerUser();">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+    <p>Already have an account? <a href="login.html">Login here</a>.</p>
+</body>
+</html>
