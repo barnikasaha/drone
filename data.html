@@ -167,7 +167,9 @@
         // Fetch data from ThingSpeak API and populate table
         async function fetchDataFromThingSpeak() {
             const channelID = '2662278';
-            const apiUrl = `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=5`;  // Adjust results as needed
+            const apiKey = "PPMASIMOY35T5VE";   // Replace with your ThingSpeak Read API Key
+            const apiurl = `https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${apiKey}&results=5`;
+  // Adjust results as needed
             
             try {
                 const response = await fetch(apiUrl);
